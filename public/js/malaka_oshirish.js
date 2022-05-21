@@ -3,9 +3,11 @@ let mtmData1 = []
 let mtmData3 = []
 let labels = []
 const labelKey = '__EMPTY_1'
+const dataKey1 = '__EMPTY_2'
+const dataKey2 = '__EMPTY_6'
 function Display() {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/public/excels/MTM.xlsx", true);
+    xhr.open("GET", "/public/excels/malaka_oshirish.xlsx", true);
     xhr.responseType = "blob";
     xhr.onload = function (e) {
         let file = this.response;
@@ -29,8 +31,10 @@ function ProcessExcel(data) {
     let firstSheet = workbook.SheetNames[0];
     //Read all rows from First Sheet into an JSON array.
     let excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
-    mtmData1 = Array.from(excelRows).slice(4, 17)
-    labels = mtmData1.map(el => el[labelKey])
+    console.log(excelRows);
+    mtmData1 = Array.from(excelRows).slice(2, 16)
+    labels = mtmData1.map(el => el[labelKey] || '')
+
 };
 
 const mtmData = {
@@ -71,11 +75,47 @@ const mtmData2 = {
 window.onload = function () {
     Display()
     setTimeout(() => {
-        mtmData.labels = mtmData1.map(el => el.__EMPTY_1 || '')
-        mtmData.datasets[0].data = mtmData1.map(el => el.__EMPTY_4)
-        mtmData2.labels = mtmData1.map(el => el.__EMPTY_1 || '')
-        mtmData2.datasets[0].data = mtmData1.map(el => el.__EMPTY_8)
+        mtmData.labels = labels
+        mtmData.datasets[0].data = mtmData1.map(el => el[dataKey1])
+        mtmData2.labels = labels
+        mtmData2.datasets[0].data = mtmData1.map(el => el[dataKey2])
 
+        let doughnut = document.getElementById('doughnut');
+        let doughnutConfig = new Chart(doughnut, {
+            type: 'horizontalBar',
+            data: mtmData,
+            options: {
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
+            }
+        });
+        let doughnut2 = document.getElementById('doughnut2');
+        let doughnut2Config = new Chart(doughnut2, {
+            type: 'horizontalBar',
+            data: mtmData2,
+            options: {
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
+            }
+        });
+        // let bar = document.getElementById('bar');
+        // bar.height = 400
+        // let barConfig = new Chart(bar, {
+        //     type: 'horizontalBar',
+        //     data: mtmData,
+        //     options: {
+        //         scales: {
+        //             yAxes: [{
+        //                 ticks: {
+        //                     beginAtZero: true
+        //                 }
+        //             }]
+        //         },
+        //         responsive: true, // Instruct chart js to respond nicely.
+        //         maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+        //     }
+        // })
+        //line chart
         let line = document.getElementById('line1');
         line.height = 400
         let lineConfig = new Chart(line, {
@@ -86,26 +126,6 @@ window.onload = function () {
                 maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
             }
         })
-        //bar chart
-        //doughnut chart
-        let doughnut = document.getElementById('doughnut');
-        let doughnutConfig = new Chart(doughnut, {
-            type: 'doughnut',
-            data: mtmData,
-            options: {
-                responsive: true, // Instruct chart js to respond nicely.
-                maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
-            }
-        });
-        let doughnut2 = document.getElementById('doughnut2');
-        let doughnut2Config = new Chart(doughnut2, {
-            type: 'doughnut',
-            data: mtmData2,
-            options: {
-                responsive: true, // Instruct chart js to respond nicely.
-                maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
-            }
-        });
         let line2 = document.getElementById('line2');
         line2.height = 400
         let lineConfig2 = new Chart(line2, {
@@ -115,62 +135,45 @@ window.onload = function () {
                 maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
             }
         })
+        // //pie chart
+        // let pie = document.getElementById('pie');
+        // let pieConfig = new Chart(pie, {
+        //     type: 'pie',
+        //     data: mtmData,
+        //     options: {
+        //         responsive: true, // Instruct chart js to respond nicely.
+        //         maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
+        //     }
+        // });
+        // //polar area chart
+        // let polar = document.getElementById('polar');
+        // let polarConfig = new Chart(polar, {
+        //     type: 'polarArea',
+        //     data: mtmData,
+        //     options: {
+        //         responsive: true, // Instruct chart js to respond nicely.
+        //         maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
+        //     }
+        // });
+        // //mixed chart
+        // let mixed = document.getElementById('mixed');
+        // let mixedConfig = new Chart(mixed, {
+        //     type: 'bar',
+        //     data: mtmData,
+        //     options: {
+        //         scales: {
+        //             yAxes: [{
+        //                 ticks: {
+        //                     beginAtZero: true
+        //                 }
+        //             }]
+        //         },
+        //         responsive: true, // Instruct chart js to respond nicely.
+        //         maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+        //     }
+        // })
     }, 500)
+    //bar chart
+    //doughnut chart
 
-    // let bar = document.getElementById('bar');
-    // bar.height = 400
-    // let barConfig = new Chart(bar, {
-    //     type: 'horizontalBar',
-    //     data: mtmData,
-    //     options: {
-    //         scales: {
-    //             yAxes: [{
-    //                 ticks: {
-    //                     beginAtZero: true
-    //                 }
-    //             }]
-    //         },
-    //         responsive: true, // Instruct chart js to respond nicely.
-    //         maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-    //     }
-    // })
-    //line chart
-
-    // //pie chart
-    // let pie = document.getElementById('pie');
-    // let pieConfig = new Chart(pie, {
-    //     type: 'pie',
-    //     data: mtmData,
-    //     options: {
-    //         responsive: true, // Instruct chart js to respond nicely.
-    //         maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
-    //     }
-    // });
-    // //polar area chart
-    // let polar = document.getElementById('polar');
-    // let polarConfig = new Chart(polar, {
-    //     type: 'polarArea',
-    //     data: mtmData,
-    //     options: {
-    //         responsive: true, // Instruct chart js to respond nicely.
-    //         maintainAspectRatio: true, // Add to prevent default behaviour of full-width/height 
-    //     }
-    // });
-    // //mixed chart
-    // let mixed = document.getElementById('mixed');
-    // let mixedConfig = new Chart(mixed, {
-    //     type: 'bar',
-    //     data: mtmData,
-    //     options: {
-    //         scales: {
-    //             yAxes: [{
-    //                 ticks: {
-    //                     beginAtZero: true
-    //                 }
-    //             }]
-    //         },
-    //         responsive: true, // Instruct chart js to respond nicely.
-    //         maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-    //     }
-    // })
 }
