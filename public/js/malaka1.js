@@ -101,13 +101,13 @@ window.onload = function () {
     Display()
     setTimeout(() => {
         mtmData.labels = mtmData1.map(el => el.__EMPTY || '')
-        mtmData.datasets[0].data = mtmData1.map(el => +String(el.__EMPTY_1).replace(" ", ""))
-        mtmData2.labels = mtmData1.map(el => el.__EMPTY_1 || '')
-        mtmData2.datasets[0].data = mtmData1.map(el => el.__EMPTY_2)
+        mtmData.datasets[0].data = mtmData1.map(el => el.__EMPTY_2)
+        mtmData2.labels = mtmData1.map(el => el.__EMPTY || '')
+        mtmData2.datasets[0].data = mtmData1.map(el => el.__EMPTY_8)
         let doughnut = document.getElementById('doughnut');
         console.log(mtmData);
         let doughnutConfig = new Chart(doughnut, {
-            type: 'line',
+            type: 'horizontalBar',
             data: mtmData,
             options: {
                 responsive: true, // Instruct chart js to respond nicely.
