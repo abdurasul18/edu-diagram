@@ -4,7 +4,7 @@ let mtmData3 = []
 let labels = []
 const labelKey = '__EMPTY'
 const dataKey1 = '__EMPTY_5'
-const dataKey2 = '__EMPTY_21'
+const dataKey2 = '__EMPTY_8'
 function Display() {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/public/excels/professional.xlsx", true);
@@ -119,7 +119,7 @@ window.onload = function () {
         let line = document.getElementById('line1');
         line.height = 400
         let lineConfig = new Chart(line, {
-            type: 'pie',
+            type: 'doughnut',
             data: mtmData,
             options: {
                 responsive: true, // Instruct chart js to respond nicely.
@@ -129,7 +129,7 @@ window.onload = function () {
         let line2 = document.getElementById('line2');
         line2.height = 400
         let lineConfig2 = new Chart(line2, {
-            type: 'pie',
+            type: 'doughnut',
             data: mtmData2,
             options: {
                 maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
