@@ -6,7 +6,7 @@ let labels = []
 const labelKey = '__EMPTY_1'
 function Display() {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/public/excels/MTM.xlsx", true);
+    xhr.open("GET", "/public/excels/maktab.xlsx", true);
     xhr.responseType = "blob";
     xhr.onload = function (e) {
         let file = this.response;
@@ -27,11 +27,11 @@ function ProcessExcel(data) {
         type: 'binary'
     });
     //Fetch the name of First Sheet.
-    let firstSheet = workbook.SheetNames[2];
+    let firstSheet = workbook.SheetNames[0];
     //Read all rows from First Sheet into an JSON array.
     let excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
     console.log(excelRows);
-    mtmData1 = Array.from(excelRows).slice(2, 15)
+    mtmData1 = Array.from(excelRows).slice(4, 17)
     labels = mtmData1.map(el => el[labelKey])
      //Create a HTML Table element.
      var table = document.createElement("table");
@@ -40,26 +40,25 @@ function ProcessExcel(data) {
      //Add the header row.
      var row = table.insertRow(-1);
  
-     //Add the header cells.
      //Add the data rows from Excel file.
-     for (var i = 1; i < excelRows.length-2; i++) {
+     for (var i = 1; i < excelRows.length-1; i++) {
          //Add the data row.
          var row = table.insertRow(-1);
  
          //Add the data cells.
          var cell = row.insertCell(-1);
-         cell.innerHTML = excelRows[i].__EMPTY || '';
- 
-         cell = row.insertCell(-1);
          cell.innerHTML = excelRows[i].__EMPTY_1 || '';
  
          cell = row.insertCell(-1);
          cell.innerHTML = excelRows[i].__EMPTY_2 || '';
+ 
          cell = row.insertCell(-1);
          cell.innerHTML = excelRows[i].__EMPTY_3 || '';
+
          cell = row.insertCell(-1);
          cell.innerHTML = excelRows[i].__EMPTY_4 || '';
-       
+         cell = row.insertCell(-1);
+         cell.innerHTML = excelRows[i].__EMPTY_5 || '';
      }
  
      var dvExcel = document.getElementById("dvExcel");
@@ -68,7 +67,11 @@ function ProcessExcel(data) {
 };
 
 const mtmData = {
-    labels: [],
+    labels: ['Toshkent viloyati', 'Qashqadaryo viloyati', 'QQR', 'Andijon viloyati',
+        'Fargʻona viloyati', 'Samarqand viloyati', 'Namangan viloyati', 'Xorazm viloyati',
+        'Sirdaryo viloyati', 'Navoiy viloyati ', 'Surxondaryo viloyati', 'Jizzax viloyati',
+        'Toshkent shahar'
+    ],
     datasets: [{
         label: 'Soni',
         data: [212851, 296449,
@@ -81,7 +84,11 @@ const mtmData = {
     }]
 }
 const mtmData2 = {
-    labels: [],
+    labels: ['Toshkent viloyati', 'Qashqadaryo viloyati', 'QQR', 'Andijon viloyati',
+        'Fargʻona viloyati', 'Samarqand viloyati', 'Namangan viloyati', 'Xorazm viloyati',
+        'Sirdaryo viloyati', 'Navoiy viloyati ', 'Surxondaryo viloyati', 'Jizzax viloyati',
+        'Toshkent shahar'
+    ],
     datasets: [{
         label: 'Soni',
         data: [212851, 296449,
@@ -98,13 +105,12 @@ window.onload = function () {
     Display()
     setTimeout(() => {
         mtmData.labels = mtmData1.map(el => el.__EMPTY_1 || '')
-        mtmData.datasets[0].data = mtmData1.map(el => +String(el.__EMPTY_2).replace(" ", ""))
+        mtmData.datasets[0].data = mtmData1.map(el => el.__EMPTY_2)
         mtmData2.labels = mtmData1.map(el => el.__EMPTY_1 || '')
-        mtmData2.datasets[0].data = mtmData1.map(el => el.__EMPTY_9)
+        mtmData2.datasets[0].data = mtmData1.map(el => el.__EMPTY_6)
         let doughnut = document.getElementById('doughnut');
-        console.log(mtmData);
         let doughnutConfig = new Chart(doughnut, {
-            type: 'horizontalBar',
+            type: 'polarArea',
             data: mtmData,
             options: {
                 responsive: true, // Instruct chart js to respond nicely.

@@ -6,7 +6,7 @@ let labels = []
 const labelKey = '__EMPTY_1'
 function Display() {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/public/excels/MTM.xlsx", true);
+    xhr.open("GET", "/public/excels/professional.xlsx", true);
     xhr.responseType = "blob";
     xhr.onload = function (e) {
         let file = this.response;
@@ -27,7 +27,7 @@ function ProcessExcel(data) {
         type: 'binary'
     });
     //Fetch the name of First Sheet.
-    let firstSheet = workbook.SheetNames[2];
+    let firstSheet = workbook.SheetNames[0];
     //Read all rows from First Sheet into an JSON array.
     let excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
     console.log(excelRows);
@@ -42,7 +42,7 @@ function ProcessExcel(data) {
  
      //Add the header cells.
      //Add the data rows from Excel file.
-     for (var i = 1; i < excelRows.length-2; i++) {
+     for (var i = 1; i < 20; i++) {
          //Add the data row.
          var row = table.insertRow(-1);
  
@@ -97,14 +97,14 @@ const mtmData2 = {
 window.onload = function () {
     Display()
     setTimeout(() => {
-        mtmData.labels = mtmData1.map(el => el.__EMPTY_1 || '')
-        mtmData.datasets[0].data = mtmData1.map(el => +String(el.__EMPTY_2).replace(" ", ""))
-        mtmData2.labels = mtmData1.map(el => el.__EMPTY_1 || '')
+        mtmData.labels = mtmData1.map(el => el.__EMPTY || '')
+        mtmData.datasets[0].data = mtmData1.map(el => el.__EMPTY_2)
+        mtmData2.labels = mtmData1.map(el => el.__EMPTY || '')
         mtmData2.datasets[0].data = mtmData1.map(el => el.__EMPTY_9)
         let doughnut = document.getElementById('doughnut');
         console.log(mtmData);
         let doughnutConfig = new Chart(doughnut, {
-            type: 'horizontalBar',
+            type: 'line',
             data: mtmData,
             options: {
                 responsive: true, // Instruct chart js to respond nicely.
