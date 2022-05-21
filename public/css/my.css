@@ -1,0 +1,18 @@
+body {
+    min-height: 100vh;
+}
+.bg-prim {
+    background: #028a85;
+}
+.text-white {
+    color: #fff;
+}
+.card {
+    box-shadow: 1px 2px ;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 25px;
+}
+/*  media queries */
+.overlayMenu > ul > li > a.active {
+    border-bottom: 1px solid #fff;
+}
